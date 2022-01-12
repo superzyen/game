@@ -40,7 +40,8 @@ public class NettyClient {
         }
     }
 
-    public void syncStart(String host) {
+    public boolean syncStart(String host) {
+        boolean conectFlag = false;
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap()
                 .group(group)
@@ -52,14 +53,18 @@ public class NettyClient {
         try {
             ChannelFuture future = bootstrap.connect(host, NetConfig.PORT).sync();
             log.info("客户端成功....");
+            conectFlag = true;
             //发送消息
             future.channel().writeAndFlush(ScannerUtil.nextLine());
             // 等待连接被关闭
 //            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            log.error("客户端连接失败");
         } finally {
             group.shutdownGracefully();
         }
+        return conectFlag;
     }
 }

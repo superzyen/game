@@ -4,12 +4,10 @@ import com.superzyen.zyengame.common.ScannerUtil;
 import com.superzyen.zyengame.common.SpringUtils;
 import com.superzyen.zyengame.net.Address;
 import com.superzyen.zyengame.netty.client.NettyClient;
-import com.superzyen.zyengame.netty.config.NetConfig;
 import com.superzyen.zyengame.netty.server.NettyServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -23,7 +21,7 @@ public class ZyengameApplication {
 //		mainController.mainProcess();
         //启动服务端
         NettyServer nettyServer = SpringUtils.getBean(NettyServer.class);
-        nettyServer.start(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), NetConfig.PORT));
+        nettyServer.start();
 
         Address address = Address.getInstance();
         List<InetSocketAddress> ipRecords = address.getList();
@@ -44,7 +42,10 @@ public class ZyengameApplication {
                 NettyClient nettyClient = SpringUtils.getBean(NettyClient.class);
                 while (true) {
                     System.out.println("请输入你的消息");
-                    nettyClient.syncStart(inetSocketAddress.getAddress().getHostAddress());
+                    Boolean flag = nettyClient.syncStart(inetSocketAddress.getAddress().getHostAddress());
+                    if (!flag) {
+                        break;
+                    }
                 }
 
             }

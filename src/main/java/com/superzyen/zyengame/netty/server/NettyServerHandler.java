@@ -17,6 +17,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         log.info("服务器 active......");
         //把新连接添加进ip记录表
         Address.getInstance().add((InetSocketAddress) ctx.channel().remoteAddress());
+        System.out.println(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress());
     }
 
     /**
