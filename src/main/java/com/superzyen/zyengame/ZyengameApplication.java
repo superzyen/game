@@ -29,10 +29,10 @@ public class ZyengameApplication {
             if (ipRecords.size() > 0) {
                 int index = 0;
                 for (InetSocketAddress inetSocketAddress : ipRecords) {
-                    System.out.println("序号" + index + " : " + inetSocketAddress.getAddress().getHostAddress());
+                    System.out.println("Num " + index + " : " + inetSocketAddress.getAddress().getHostAddress());
                     index++;
                 }
-                System.out.println("请输入你要连接的ip的序号");
+                System.out.println("Pls input your num:");
                 int select = ScannerUtil.nextInt();
                 if (select < 0) {
                     continue;
@@ -41,7 +41,7 @@ public class ZyengameApplication {
                 //启动netty客户端
                 NettyClient nettyClient = SpringUtils.getBean(NettyClient.class);
                 while (true) {
-                    System.out.println("请输入你的消息");
+                    System.out.println("Write your message");
                     Boolean flag = nettyClient.syncStart(inetSocketAddress.getAddress().getHostAddress());
                     if (!flag) {
                         break;

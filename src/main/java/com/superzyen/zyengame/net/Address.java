@@ -31,12 +31,14 @@ public class Address {
         return address;
     }
 
-    public void add(InetSocketAddress address) {
+    public boolean add(InetSocketAddress address) {
         String ip = address.getAddress().getHostAddress();
         if (!ipStrList.contains(ip)) {
             ipAddressRecords.add(address);
             ipStrList.add(ip);
+            return true;
         }
+        return false;
     }
 
     public InetSocketAddress get(int index) {

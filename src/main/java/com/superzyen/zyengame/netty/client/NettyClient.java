@@ -28,7 +28,7 @@ public class NettyClient {
 
         try {
             ChannelFuture future = bootstrap.connect(host, NetConfig.PORT).sync();
-            log.info("客户端成功....");
+            log.info("Client success....");
             //发送消息
             future.channel().writeAndFlush(ScannerUtil.nextLine());
             // 等待连接被关闭
@@ -52,16 +52,16 @@ public class NettyClient {
 
         try {
             ChannelFuture future = bootstrap.connect(host, NetConfig.PORT).sync();
-            log.info("客户端成功....");
+            log.info("Client success....");
             conectFlag = true;
             //发送消息
             future.channel().writeAndFlush(ScannerUtil.nextLine());
             // 等待连接被关闭
-//            future.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            log.error("客户端连接失败");
+            log.error("Client connect unsuccessfully", e);
         } finally {
             group.shutdownGracefully();
         }

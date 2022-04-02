@@ -14,10 +14,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("服务器 active......");
+        log.info("Server active......");
         //把新连接添加进ip记录表
-        Address.getInstance().add((InetSocketAddress) ctx.channel().remoteAddress());
-        System.out.println(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress());
+        boolean flag = Address.getInstance().add((InetSocketAddress) ctx.channel().remoteAddress());
+        //如果是新进ip则打印日志
+        if (flag) {
+            log.info("Connected client ip:" + ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress());
+        }
     }
 
     /**
@@ -25,8 +28,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("服务器收到消息: {}", msg.toString());
-        System.out.println("收到的消息：" + msg);
+        log.info("Server receiving message: {}", msg.toString());
     }
 
     /**

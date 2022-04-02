@@ -24,16 +24,16 @@ public class NettyServer {
         ServerBootstrap bootstrap = new ServerBootstrap()
                 .group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new ServerChannelInitializer())
 //                .localAddress(socketAddress)
                 //设置队列大小
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 // 两小时内没有数据的通信时,TCP会自动发送一个活动探测数据报文
-                .childOption(ChannelOption.SO_KEEPALIVE, true);
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childHandler(new ServerChannelInitializer());
         //绑定端口,开始接收进来的连接
         try {
             ChannelFuture future = bootstrap.bind(NetConfig.PORT).sync();
-            log.info("服务器启动开始监听端口: {}", NetConfig.PORT);
+            log.info("Server monitor port: {}", NetConfig.PORT);
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
