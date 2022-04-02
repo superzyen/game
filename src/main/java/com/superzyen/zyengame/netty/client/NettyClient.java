@@ -40,7 +40,7 @@ public class NettyClient {
         }
     }
 
-    public boolean syncStart(String host) {
+    public boolean syncStart(String host, int port) {
         boolean conectFlag = false;
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap()
@@ -51,7 +51,7 @@ public class NettyClient {
                 .handler(new NettyClientInitializer());
 
         try {
-            ChannelFuture future = bootstrap.connect(host, NetConfig.PORT).sync();
+            ChannelFuture future = bootstrap.connect(host, port).sync();
             log.info("Client success....");
             conectFlag = true;
             //发送消息

@@ -42,7 +42,8 @@ public class ZyengameApplication {
                 NettyClient nettyClient = SpringUtils.getBean(NettyClient.class);
                 while (true) {
                     System.out.println("Write your message");
-                    Boolean flag = nettyClient.syncStart(inetSocketAddress.getAddress().getHostAddress());
+                    Boolean flag = nettyClient.syncStart(inetSocketAddress.getAddress().getHostAddress(),
+                            inetSocketAddress.getPort());
                     if (!flag) {
                         break;
                     }
