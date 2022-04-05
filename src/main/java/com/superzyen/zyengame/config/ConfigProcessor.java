@@ -28,4 +28,16 @@ public class ConfigProcessor {
         LocalConfig localConfig = deserializationSetting();
         return String.format("%s^%s:%s", Address.TAG_PRE_FIX, localConfig.getIp(), localConfig.getPort());
     }
+
+    /**
+     * 检查是否存在配置
+     */
+    public boolean check() throws SettingInitialException {
+        LocalConfig localConfig = deserializationSetting();
+        if (localConfig != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
