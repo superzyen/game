@@ -25,6 +25,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("Server receiving message: {}", msg.toString());
+        isAddress(msg.toString());
     }
 
     /**
@@ -36,6 +37,25 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
+    /**
+     *  判断是否传送地址信息
+     */
+    private boolean isAddress(String msg) {
+        if (msg.startsWith(Address.TAG_PRE_FIX)) {
+            String[] msgs = msg.split("^");
+            try {
+                addNewAddress(msgs[1]);
+            } catch (SplitErrorException e) {
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *  地址表中添加新地址（公网ip+端口）
+     */
     private void addNewAddress(String msg) throws SplitErrorException {
         //把新连接添加进ip记录表
         String[] msgs = null;

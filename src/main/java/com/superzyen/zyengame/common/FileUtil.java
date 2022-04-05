@@ -1,13 +1,16 @@
 package com.superzyen.zyengame.common;
 
-import com.superzyen.zyengame.account.Account;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 
 @Slf4j
 public class FileUtil {
 
+    /**
+     * 反序列化
+     */
     public static <T> T deserializeObject(String path, Class<T> clazz) throws ClassNotFoundException, IOException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(path)))) {
             return (T) ois.readObject();
@@ -17,10 +20,16 @@ public class FileUtil {
         }
     }
 
-    public static void serializeObject(Object object) throws IOException {
-        exist(Account.DEFUALT_DIR_NAME);
+    /**
+     *  将对象序列化到指定路径
+     */
+    public static void serializeObject(Object object, String dir, String file) throws Exception {
+        if (StringUtils.isBlank(dir) || StringUtils.isBlank(file)) {
+            throw new Exception("param have not be null");
+        }
+        exist(dir);
         try (ObjectOutputStream oo = new ObjectOutputStream(new FileOutputStream(
-                new File(getPath() + "/" + Account.DEFUALT_DIR_NAME + "/" + Account.DEFUALT_FILE_NAME)))) {
+                new File(getPath() + "/" + dir + "/" + file)))) {
             oo.writeObject(object);
         } catch (IOException e) {
             log.error("序列化失败");

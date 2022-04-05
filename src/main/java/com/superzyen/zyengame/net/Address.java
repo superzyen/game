@@ -11,6 +11,7 @@ public class Address {
     private static Address address;
     private static List<InetSocketAddress> ipAddressRecords = new ArrayList<>();
     private static List<String> ipStrList = new ArrayList<>();
+    public static final String TAG_PRE_FIX = "zyen101";
 
     private Address() {
 
@@ -55,6 +56,11 @@ public class Address {
         }
     }
 
+    /**
+     *  添加新地址
+     *  如果之前不存在，则添加成功
+     *  如果已经存在，则添加失败
+     */
     public boolean add(InetSocketAddress address) {
         String ip = address.getAddress().getHostAddress();
         if (!ipStrList.contains(ip)) {
